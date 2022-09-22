@@ -1,15 +1,25 @@
 <template>
   <PanelSystem />
+  <PanelScreen />
+  <!-- <Infomation />
+  <ChoiceColors /> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PanelSystem from './components/PanelSystem.vue'
+import PanelScreen from './components/PanelScreen.vue'
+// import Infomation from './components/Infomation.vue'
+// import ChoiceColors from './components/ChoiceColors.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    PanelSystem
+    PanelSystem,
+    // Panel,
+    // Infomation,
+    // ChoiceColors
+    PanelScreen
   }
 })
 </script>

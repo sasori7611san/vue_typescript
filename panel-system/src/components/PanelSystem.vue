@@ -61,8 +61,9 @@ export default defineComponent({
     const message = 'I have seen it...'
     const resultRef = ref<string>('赤:0,緑:0,白:0,青:0')
     const strColorRef = ref<string>('')
-    const warningRef = ref<string>('')
+    const warningRef = ref<string>('必ず入力する色を選んでから番号を押してください')
     const panelNoRef = ref<string>('')
+
     // 色選択
     const choiceColor = (num: number): void => {
       switch (num) {
@@ -89,11 +90,8 @@ export default defineComponent({
       // 黄色（チャンスの場合は違うロジック）
       if (color === Colors.YELLOW) {
         // チェックパネル初期化
-        for (m = 0; m <= 6; m++) {
-          for (n = 0; n <= 6; n++) {
-            checkPanel[m][n] = false
-          }
-        }
+        checkPanelInit(checkPanel, m, n)
+        // 黄色が入れる箇所を抽出
         for (m = 0; m <= 6; m++) {
           for (n = 0; n <= 6; n++) {
             if (panels[m][n] >= Colors.RED) {
@@ -121,11 +119,7 @@ export default defineComponent({
           [9, 9, 9, 9, 9, 9, 9]
         ]
         // チェックパネル初期化
-        for (m = 0; m <= 6; m++) {
-          for (n = 0; n <= 6; n++) {
-            checkPanel[m][n] = false
-          }
-        }
+        checkPanelInit(checkPanel, m, n)
         // 条件確認ロジック
         for (m = 0; m <= 6; m++) {
           for (n = 0; n <= 6; n++) {
@@ -154,6 +148,15 @@ export default defineComponent({
       panelNoRef.value = canGetPanelNo.join(',')
     }
 
+    // チェックパネル初期化
+    const checkPanelInit = (cPanel: boolean[][], m: number, n: number) => {
+      for (m = 0; m <= 6; m++) {
+        for (n = 0; n <= 6; n++) {
+          cPanel[m][n] = false
+        }
+      }
+    }
+
     // パネル取得
     const action = (num: number): void => {
       // 縦要素番号
@@ -171,7 +174,7 @@ export default defineComponent({
           colorSet(color, panelId, verNo, sideNo)
           panelChange(panels, verNo, sideNo)
           total()
-          warningRef.value = ''
+          warningRef.value = '必ず入力する色を選んでから番号を押してください'
         } else {
           warningRef.value = '今は取れません'
         }
@@ -232,8 +235,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = v - 1; i >= 0; i--) {
             if (pan[i][s] !== cn && pan[i][s] > Colors.YELLOW) {
-              const cNum = (i - 1) * 5 + s
-              colorSet(cn, cNum, i, s)
+              doPanelChange(cn, i, s)
             } else {
               break
             }
@@ -247,8 +249,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = v + 1; i <= 6; i++) {
             if (pan[i][s] !== cn && pan[i][s] > Colors.YELLOW) {
-              const cNum = (i - 1) * 5 + s
-              colorSet(cn, cNum, i, s)
+              doPanelChange(cn, i, s)
             } else {
               break
             }
@@ -262,8 +263,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = s - 1; i >= 0; i--) {
             if (pan[v][i] !== cn && pan[v][i] > Colors.YELLOW) {
-              const cNum = (v - 1) * 5 + i
-              colorSet(cn, cNum, v, i)
+              doPanelChange(cn, v, i)
             } else {
               break
             }
@@ -277,8 +277,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = s + 1; i <= 6; i++) {
             if (pan[v][i] !== cn && pan[v][i] > Colors.YELLOW) {
-              const cNum = (v - 1) * 5 + i
-              colorSet(cn, cNum, v, i)
+              doPanelChange(cn, v, i)
             } else {
               break
             }
@@ -292,8 +291,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = v - 1, j = s - 1; i >= 0 || j >= 0; i--, j--) {
             if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
-              const cNum = (i - 1) * 5 + j
-              colorSet(cn, cNum, i, j)
+              doPanelChange(cn, i, j)
             } else {
               break
             }
@@ -307,8 +305,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = v + 1, j = s - 1; i <= 6 || j >= 0; i++, j--) {
             if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
-              const cNum = (i - 1) * 5 + j
-              colorSet(cn, cNum, i, j)
+              doPanelChange(cn, i, j)
             } else {
               break
             }
@@ -322,8 +319,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = v - 1, j = s + 1; i >= 0 || j <= 6; i--, j++) {
             if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
-              const cNum = (i - 1) * 5 + j
-              colorSet(cn, cNum, i, j)
+              doPanelChange(cn, i, j)
             } else {
               break
             }
@@ -337,8 +333,7 @@ export default defineComponent({
         if (panelPreChange) {
           for (i = v + 1, j = s + 1; i <= 6 || j <= 6; i++, j++) {
             if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
-              const cNum = (i - 1) * 5 + j
-              colorSet(cn, cNum, i, j)
+              doPanelChange(cn, i, j)
             } else {
               break
             }
@@ -346,6 +341,11 @@ export default defineComponent({
           panelPreChange = false
         }
       }
+    }
+    // パネルの色を変える
+    const doPanelChange = (cn: number, v: number, s: number): void => {
+      const cNum = (v - 1) * 5 + s
+      colorSet(cn, cNum, v, s)
     }
 
     // 集計ロジック
@@ -775,10 +775,6 @@ export default defineComponent({
 
 .yellow {
     background-color: yellow;
-}
-
-#buttonGray {
-    background-color: gray;
 }
 
 #buttonRed {
