@@ -13,10 +13,6 @@
         <p>選択中の色：{{ strColorRef }}</p>
         <p>取れる番号は、{{ panelNoRef }}</p>
         {{ resultRef }}
-        <!-- <pre>{{ warning }}</pre>
-        <pre>選択中の色：{{ strColor }}</pre>
-        <pre>取れる番号は、{{ panelNo }}</pre>
-        <pre>{{ result }}</pre> -->
         <div class="choice">
             <button id="buttonRed" v-on:click="choiceColor(2);"></button>
             <button id="buttonGreen" v-on:click="choiceColor(3);"></button>
@@ -63,14 +59,10 @@ export default defineComponent({
 
     // 使用メッセージ
     const message = 'I have seen it...'
-    // let result = '赤:0,緑:0,白:0,青:0'
-    // let strColor = ''
-    // let warning = ''
-    // let panelNo = ''
-    let resultRef = ref<string>('赤:0,緑:0,白:0,青:0')
-    let strColorRef = ref<string>('')
-    let warningRef = ref<string>('')
-    let panelNoRef = ref<string>('')
+    const resultRef = ref<string>('赤:0,緑:0,白:0,青:0')
+    const strColorRef = ref<string>('')
+    const warningRef = ref<string>('')
+    const panelNoRef = ref<string>('')
     // 色選択
     const choiceColor = (num: number): void => {
       switch (num) {
@@ -159,8 +151,7 @@ export default defineComponent({
           }
         }
       }
-      //   panelNo = ref<string>(canGetPanelNo.join(','))
-      panelNoRef = ref<string>(canGetPanelNo.join(','))
+      panelNoRef.value = canGetPanelNo.join(',')
     }
 
     // パネル取得
@@ -180,11 +171,9 @@ export default defineComponent({
           colorSet(color, panelId, verNo, sideNo)
           panelChange(panels, verNo, sideNo)
           total()
-          //   warning = ref<string>('')
-          warningRef = ref<string>('')
+          warningRef.value = ''
         } else {
-        //   warning = ref<string>('今は取れません')
-          warningRef = ref<string>('今は取れません')
+          warningRef.value = '今は取れません'
         }
       }
     }
@@ -388,36 +377,29 @@ export default defineComponent({
           }
         }
       }
-      //   result = ref<string>(`赤:${redCount},緑:${greenCount},白:${whiteCount},青:${blueCount}`)
-      resultRef = ref<string>(`赤:${redCount},緑:${greenCount},白:${whiteCount},青:${blueCount}`)
+      resultRef.value = `赤:${redCount},緑:${greenCount},白:${whiteCount},青:${blueCount}`
     }
 
     // 選択中の色表示
     const currentColor = (): void => {
       switch (color) {
         case Colors.YELLOW:
-        //   strColor = ref<string>('黄')
-          strColorRef = ref<string>('黄')
+          strColorRef.value = '黄'
           break
         case Colors.RED:
-        //   strColor = ref<string>('赤')
-          strColorRef = ref<string>('赤')
+          strColorRef.value = '赤'
           break
         case Colors.GREEN:
-        //   strColor = ref<string>('緑')
-          strColorRef = ref<string>('緑')
+          strColorRef.value = '緑'
           break
         case Colors.WHITE:
-        //   strColor = ref<string>('白')
-          strColorRef = ref<string>('白')
+          strColorRef.value = '白'
           break
         case Colors.BLUE:
-        //   strColor = ref<string>('青')
-          strColorRef = ref<string>('青')
+          strColorRef.value = '青'
           break
         default:
-        //   strColor = ref<string>('灰')
-          strColorRef = ref<string>('灰')
+          strColorRef.value = '灰'
           break
       }
     }
@@ -753,7 +735,6 @@ export default defineComponent({
       return flag
     }
     return {
-      // message, result, strColor, warning, panelNo, choiceColor, action
       message, resultRef, strColorRef, warningRef, panelNoRef, choiceColor, action
     }
   }
