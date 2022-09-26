@@ -796,6 +796,7 @@ export default defineComponent({
 .panel > button {
   width: 60px;
   height: 60px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .choice > button {
