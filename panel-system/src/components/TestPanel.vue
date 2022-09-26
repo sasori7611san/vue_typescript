@@ -31,26 +31,78 @@ export default defineComponent({
     // 使用色番号保持
     let color = 0
 
-    // パネル
-    const panels: number[][] = [
-      [-1, -1, -1, -1, -1, -1, -1],
-      [-1, 0, 0, 0, 0, 0, -1],
-      [-1, 0, 0, 0, 0, 0, -1],
-      [-1, 0, 0, 0, 0, 0, -1],
-      [-1, 0, 0, 0, 0, 0, -1],
-      [-1, 0, 0, 0, 0, 0, -1],
-      [-1, -1, -1, -1, -1, -1, -1]
-    ]
+    // Panel型の定義
+    type Panel = {
+      color: number;
+      check: boolean;
+      condition: number;
+    }
 
-    // チェックパネル
-    const checkPanel: boolean[][] = [
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false]
+    // パネル
+    const panel: Panel[][] = [
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ],
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ],
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ],
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ],
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ],
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: 0, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ],
+      [
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 },
+        { color: -1, check: false, condition: 9 }
+      ]
     ]
 
     // 色定数
@@ -85,21 +137,6 @@ export default defineComponent({
           break
       }
       currentColor()
-      panelNoRef.value = checkNo(color, panels, checkPanel)
-    }
-
-    // チェックパネル初期化
-    const checkPanelInit = (cPanel: boolean[][], m: number, n: number) => {
-      for (m = 0; m <= 6; m++) {
-        for (n = 0; n <= 6; n++) {
-          cPanel[m][n] = false
-        }
-      }
-    }
-
-    // 取れる番号チェック
-    // c: 色番号,pn: パネル,cpn: チェックパネル
-    const checkNo = (c: number, pn: number[][], cpn:boolean[][]) => {
       // 取得可能な番号
       let pNo = 0
       const canGetPanelNo = []
@@ -107,17 +144,17 @@ export default defineComponent({
       let m = 0
       let n = 0
       // 黄色（チャンスの場合は違うロジック）
-      if (c === Colors.YELLOW) {
+      if (color === Colors.YELLOW) {
         // チェックパネル初期化
-        checkPanelInit(cpn, m, n)
+        checkPanelInit(panel, m, n)
         // 黄色が入れる箇所を抽出
         for (m = 0; m <= 6; m++) {
           for (n = 0; n <= 6; n++) {
-            if (pn[m][n] >= Colors.RED) {
+            if (panel[m][n].color >= Colors.RED) {
               // 変わる条件を判定
-              cpn[m][n] = true
+              panel[m][n].check = true
             }
-            if (cpn[m][n]) {
+            if (panel[m][n].check) {
               pNo = (m - 1) * 5 + n
               canGetPanelNo.push(pNo.toString())
             }
@@ -127,44 +164,49 @@ export default defineComponent({
         // 取れるか否かチェック
         // 条件番号
         let condNo = 9
-        // チェックワークパネル
-        const checkPanelwk: number[][] = [
-          [9, 9, 9, 9, 9, 9, 9],
-          [9, 9, 9, 9, 9, 9, 9],
-          [9, 9, 9, 9, 9, 9, 9],
-          [9, 9, 9, 9, 9, 9, 9],
-          [9, 9, 9, 9, 9, 9, 9],
-          [9, 9, 9, 9, 9, 9, 9],
-          [9, 9, 9, 9, 9, 9, 9]
-        ]
+        // 条件初期化
+        for (m = 0; m <= 6; m++) {
+          for (n = 0; n <= 6; n++) {
+            panel[m][n].condition = 9
+          }
+        }
         // チェックパネル初期化
-        checkPanelInit(cpn, m, n)
+        checkPanelInit(panel, m, n)
         // 条件確認ロジック
         for (m = 0; m <= 6; m++) {
           for (n = 0; n <= 6; n++) {
-            if (pn[m][n] === Colors.GRAY || pn[m][n] === Colors.YELLOW) {
+            if (panel[m][n].color === Colors.GRAY || panel[m][n].color === Colors.YELLOW) {
               // 変わる条件を判定
-              checkPanelwk[m][n] = canGetPanelCheck(m, n)
+              panel[m][n].condition = canGetPanelCheck(m, n)
             }
-            if (checkPanelwk[m][n] < condNo) {
-              condNo = checkPanelwk[m][n]
+            if (panel[m][n].condition < condNo) {
+              condNo = panel[m][n].condition
             }
           }
         }
         for (m = 0; m <= 6; m++) {
           for (n = 0; n <= 6; n++) {
-            if (checkPanelwk[m][n] === condNo) {
+            if (panel[m][n].condition === condNo) {
               // 変わるパネルがあるか判定
-              cpn[m][n] = true
+              panel[m][n].check = true
             }
-            if (cpn[m][n]) {
+            if (panel[m][n].check) {
               pNo = (m - 1) * 5 + n
               canGetPanelNo.push(pNo.toString())
             }
           }
         }
       }
-      return canGetPanelNo.join(',')
+      panelNoRef.value = canGetPanelNo.join(',')
+    }
+
+    // チェックパネル初期化
+    const checkPanelInit = (cPanel: Panel[][], m: number, n: number) => {
+      for (m = 0; m <= 6; m++) {
+        for (n = 0; n <= 6; n++) {
+          cPanel[m][n].check = false
+        }
+      }
     }
 
     // パネル取得
@@ -180,9 +222,9 @@ export default defineComponent({
         // 取得配列要素取得
         Math.floor(num / 5) < 5 && num % 5 !== 0 ? verNo = Math.floor(num / 5) + 1 : verNo = Math.floor(num / 5)
         num % 5 === 0 ? sideNo = 5 : sideNo = num % 5
-        if (checkPanel[verNo][sideNo]) {
+        if (panel[verNo][sideNo].check) {
           colorSet(color, panelId, verNo, sideNo)
-          panelChange(panels, verNo, sideNo)
+          panelChange(panel, verNo, sideNo)
           total()
           warningRef.value = '必ず入力する色を選んでから番号を押してください'
         } else {
@@ -200,27 +242,27 @@ export default defineComponent({
       if (elem !== null) {
         switch (col) {
           case 1:
-            panels[v][s] = Colors.YELLOW
+            panel[v][s].color = Colors.YELLOW
             elem.style.backgroundColor = 'yellow'
             break
           case 2:
-            panels[v][s] = Colors.RED
+            panel[v][s].color = Colors.RED
             elem.style.backgroundColor = 'red'
             break
           case 3:
-            panels[v][s] = Colors.GREEN
+            panel[v][s].color = Colors.GREEN
             elem.style.backgroundColor = 'green'
             break
           case 4:
-            panels[v][s] = Colors.WHITE
+            panel[v][s].color = Colors.WHITE
             elem.style.backgroundColor = 'white'
             break
           case 5:
-            panels[v][s] = Colors.BLUE
+            panel[v][s].color = Colors.BLUE
             elem.style.backgroundColor = 'blue'
             break
           default:
-            panels[v][s] = Colors.GRAY
+            panel[v][s].color = Colors.GRAY
             elem.style.backgroundColor = 'gray'
             break
         }
@@ -228,9 +270,9 @@ export default defineComponent({
     }
 
     // パネル変化ロジック
-    const panelChange = (pan: number[][], v: number, s: number) : void => {
+    const panelChange = (pan: Panel[][], v: number, s: number) : void => {
       // 起点の色
-      const cn = pan[v][s]
+      const cn = pan[v][s].color
       // パネル変わる可能性
       let panelPreChange = false
       // 色判定（0:灰色、1:黄色は除外）
@@ -244,7 +286,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = v - 1; i >= 0; i--) {
-            if (pan[i][s] !== cn && pan[i][s] > Colors.YELLOW) {
+            if (pan[i][s].color !== cn && pan[i][s].color > Colors.YELLOW) {
               doPanelChange(cn, i, s)
             } else {
               break
@@ -258,7 +300,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = v + 1; i <= 6; i++) {
-            if (pan[i][s] !== cn && pan[i][s] > Colors.YELLOW) {
+            if (pan[i][s].color !== cn && pan[i][s].color > Colors.YELLOW) {
               doPanelChange(cn, i, s)
             } else {
               break
@@ -272,7 +314,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = s - 1; i >= 0; i--) {
-            if (pan[v][i] !== cn && pan[v][i] > Colors.YELLOW) {
+            if (pan[v][i].color !== cn && pan[v][i].color > Colors.YELLOW) {
               doPanelChange(cn, v, i)
             } else {
               break
@@ -286,7 +328,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = s + 1; i <= 6; i++) {
-            if (pan[v][i] !== cn && pan[v][i] > Colors.YELLOW) {
+            if (pan[v][i].color !== cn && pan[v][i].color > Colors.YELLOW) {
               doPanelChange(cn, v, i)
             } else {
               break
@@ -300,7 +342,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = v - 1, j = s - 1; i >= 0 || j >= 0; i--, j--) {
-            if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
+            if (pan[i][j].color !== cn && pan[i][j].color > Colors.YELLOW) {
               doPanelChange(cn, i, j)
             } else {
               break
@@ -314,7 +356,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = v + 1, j = s - 1; i <= 6 || j >= 0; i++, j--) {
-            if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
+            if (pan[i][j].color !== cn && pan[i][j].color > Colors.YELLOW) {
               doPanelChange(cn, i, j)
             } else {
               break
@@ -328,7 +370,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = v - 1, j = s + 1; i >= 0 || j <= 6; i--, j++) {
-            if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
+            if (pan[i][j].color !== cn && pan[i][j].color > Colors.YELLOW) {
               doPanelChange(cn, i, j)
             } else {
               break
@@ -342,7 +384,7 @@ export default defineComponent({
         // パネルを変える
         if (panelPreChange) {
           for (i = v + 1, j = s + 1; i <= 6 || j <= 6; i++, j++) {
-            if (pan[i][j] !== cn && pan[i][j] > Colors.YELLOW) {
+            if (pan[i][j].color !== cn && pan[i][j].color > Colors.YELLOW) {
               doPanelChange(cn, i, j)
             } else {
               break
@@ -369,7 +411,7 @@ export default defineComponent({
       let y
       for (x = 0; x <= 6; x++) {
         for (y = 0; y <= 6; y++) {
-          switch (panels[x][y]) {
+          switch (panel[x][y].color) {
             case Colors.RED:
               redCountRef.value++
               break
@@ -422,7 +464,7 @@ export default defineComponent({
       // 挟める箇所フラグ
       const sandPanel = false
       // 最初は配列[3][3]（13番）のみ
-      if (panels[3][3] === Colors.GRAY) {
+      if (panel[3][3].color === Colors.GRAY) {
         beginLock = true
         if (v === 3 && s === 3) {
           canGetPanel = 1
@@ -457,9 +499,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = v - 1; a >= 0; a--) {
-            if (panels[a][s] !== color && panels[a][s] > Colors.YELLOW) {
+            if (panel[a][s].color !== color && panel[a][s].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[a][s] === Colors.GRAY || panels[a][s] === Colors.YELLOW) {
+            } else if (panel[a][s].color === Colors.GRAY || panel[a][s].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -474,9 +516,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = v + 1; a <= 6; a++) {
-            if (panels[a][s] !== color && panels[a][s] > Colors.YELLOW) {
+            if (panel[a][s].color !== color && panel[a][s].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[a][s] === Colors.GRAY || panels[a][s] === Colors.YELLOW) {
+            } else if (panel[a][s].color === Colors.GRAY || panel[a][s].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -491,9 +533,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = s - 1; a >= 0; a--) {
-            if (panels[v][a] !== color && panels[v][a] > Colors.YELLOW) {
+            if (panel[v][a].color !== color && panel[v][a].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[v][a] === Colors.GRAY || panels[v][a] === Colors.YELLOW) {
+            } else if (panel[v][a].color === Colors.GRAY || panel[v][a].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -508,9 +550,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = s + 1; a <= 6; a++) {
-            if (panels[v][a] !== color && panels[v][a] > Colors.YELLOW) {
+            if (panel[v][a].color !== color && panel[v][a].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[v][a] === Colors.GRAY || panels[v][a] === Colors.YELLOW) {
+            } else if (panel[v][a].color === Colors.GRAY || panel[v][a].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -525,9 +567,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = v - 1, b = s - 1; a >= 0 || b >= 0; a--, b--) {
-            if (panels[a][b] !== color && panels[a][b] > Colors.YELLOW) {
+            if (panel[a][b].color !== color && panel[a][b].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[a][b] === Colors.GRAY || panels[a][b] === Colors.YELLOW) {
+            } else if (panel[a][b].color === Colors.GRAY || panel[a][b].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -542,9 +584,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = v + 1, b = s - 1; a <= 6 || b >= 0; a++, b--) {
-            if (panels[a][b] !== color && panels[a][b] > Colors.YELLOW) {
+            if (panel[a][b].color !== color && panel[a][b].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[a][b] === Colors.GRAY || panels[a][b] === Colors.YELLOW) {
+            } else if (panel[a][b].color === Colors.GRAY || panel[a][b].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -559,9 +601,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = v - 1, b = s + 1; a >= 0 || b <= 6; a--, b++) {
-            if (panels[a][b] !== color && panels[a][b] > Colors.YELLOW) {
+            if (panel[a][b].color !== color && panel[a][b].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[a][b] === Colors.GRAY || panels[a][b] === Colors.YELLOW) {
+            } else if (panel[a][b].color === Colors.GRAY || panel[a][b].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -576,9 +618,9 @@ export default defineComponent({
           // 挟む対象判定フラグ
           let isSandTarget = false
           for (a = v + 1, b = s + 1; a <= 6 || b <= 6; a++, b++) {
-            if (panels[a][b] !== color && panels[a][b] > Colors.YELLOW) {
+            if (panel[a][b].color !== color && panel[a][b].color > Colors.YELLOW) {
               isSandTarget = true
-            } else if (panels[a][b] === Colors.GRAY || panels[a][b] === Colors.YELLOW) {
+            } else if (panel[a][b].color === Colors.GRAY || panel[a][b].color === Colors.YELLOW) {
               if (isSandTarget) {
                 canGetPanel = 2
               }
@@ -591,13 +633,13 @@ export default defineComponent({
       }
       // 誰かのパネルに隣接しているか
       if (canGetPanel > 2) {
-        if (panels[v - 1][s] >= Colors.RED || panels[v + 1][s] >= Colors.RED) {
+        if (panel[v - 1][s].color >= Colors.RED || panel[v + 1][s].color >= Colors.RED) {
           canGetPanel = 3
-        } else if (panels[v][s - 1] >= Colors.RED || panels[v][s + 1] >= Colors.RED) {
+        } else if (panel[v][s - 1].color >= Colors.RED || panel[v][s + 1].color >= Colors.RED) {
           canGetPanel = 3
-        } else if (panels[v - 1][s - 1] >= Colors.RED || panels[v + 1][s - 1] >= Colors.RED) {
+        } else if (panel[v - 1][s - 1].color >= Colors.RED || panel[v + 1][s - 1].color >= Colors.RED) {
           canGetPanel = 3
-        } else if (panels[v - 1][s + 1] >= Colors.RED || panels[v + 1][s + 1] >= Colors.RED) {
+        } else if (panel[v - 1][s + 1].color >= Colors.RED || panel[v + 1][s + 1].color >= Colors.RED) {
           canGetPanel = 3
         }
       }
@@ -609,9 +651,9 @@ export default defineComponent({
       // for文用変数
       let i
       for (i = v - 1; i >= 0; i--) {
-        if (panels[i][s] !== cn && panels[i][s] > Colors.YELLOW) {
+        if (panel[i][s].color !== cn && panel[i][s].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[i][s] <= Colors.YELLOW) {
+        } else if (panel[i][s].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -626,9 +668,9 @@ export default defineComponent({
       // for文用変数
       let i
       for (i = v + 1; i <= 6; i++) {
-        if (panels[i][s] !== cn && panels[i][s] > Colors.YELLOW) {
+        if (panel[i][s].color !== cn && panel[i][s].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[i][s] <= Colors.YELLOW) {
+        } else if (panel[i][s].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -643,9 +685,9 @@ export default defineComponent({
       // for文用変数
       let i
       for (i = s - 1; i >= 0; i--) {
-        if (panels[v][i] !== cn && panels[v][i] > Colors.YELLOW) {
+        if (panel[v][i].color !== cn && panel[v][i].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[v][i] <= Colors.YELLOW) {
+        } else if (panel[v][i].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -660,9 +702,9 @@ export default defineComponent({
       // for文用変数
       let i
       for (i = s + 1; i <= 6; i++) {
-        if (panels[v][i] !== cn && panels[v][i] > Colors.YELLOW) {
+        if (panel[v][i].color !== cn && panel[v][i].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[v][i] <= Colors.YELLOW) {
+        } else if (panel[v][i].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -678,9 +720,9 @@ export default defineComponent({
       let i
       let j
       for (i = v - 1, j = s - 1; i >= 0 || j >= 0; i--, j--) {
-        if (panels[i][j] !== cn && panels[i][j] > Colors.YELLOW) {
+        if (panel[i][j].color !== cn && panel[i][j].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[i][j] <= Colors.YELLOW) {
+        } else if (panel[i][j].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -696,9 +738,9 @@ export default defineComponent({
       let i
       let j
       for (i = v + 1, j = s - 1; i <= 6 || j >= 0; i++, j--) {
-        if (panels[i][j] !== cn && panels[i][j] > Colors.YELLOW) {
+        if (panel[i][j].color !== cn && panel[i][j].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[i][j] <= Colors.YELLOW) {
+        } else if (panel[i][j].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -714,9 +756,9 @@ export default defineComponent({
       let i
       let j
       for (i = v - 1, j = s + 1; i >= 0 || j <= 6; i--, j++) {
-        if (panels[i][j] !== cn && panels[i][j] > Colors.YELLOW) {
+        if (panel[i][j].color !== cn && panel[i][j].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[i][j] <= Colors.YELLOW) {
+        } else if (panel[i][j].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
@@ -732,9 +774,9 @@ export default defineComponent({
       let i
       let j
       for (i = v + 1, j = s + 1; i <= 6 || j <= 6; i++, j++) {
-        if (panels[i][j] !== cn && panels[i][j] > Colors.YELLOW) {
+        if (panel[i][j].color !== cn && panel[i][j].color > Colors.YELLOW) {
           flag = true
-        } else if (panels[i][j] <= Colors.YELLOW) {
+        } else if (panel[i][j].color <= Colors.YELLOW) {
           flag = false
           break
         } else {
