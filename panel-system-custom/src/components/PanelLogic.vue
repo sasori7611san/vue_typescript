@@ -1,15 +1,8 @@
 <template>
   <div>
-    <div class ="panel">
-      <PanelScreen :action="action"/>
-    </div>
-    <br />
-    {{ warningRef }}
-    <p>選択中の色：{{ strColorRef }}</p>
-    <p>取れる番号は、{{ panelNoRef }}</p>
-    <div class="choice">
-      <ChoiceColor :choiceColor="choiceColor" :red-count-ref="redCountRef" :green-count-ref="greenCountRef" :white-count-ref="whiteCountRef" :blueCountRef="blueCountRef" />
-    </div>
+    <PanelScreen :action="action"/>
+    <MessagePlace :str-color-ref="strColorRef" :warning-ref="warningRef" :panel-no-ref="panelNoRef" />
+    <ChoiceColor :choiceColor="choiceColor" :red-count-ref="redCountRef" :green-count-ref="greenCountRef" :white-count-ref="whiteCountRef" :blueCountRef="blueCountRef" />
   </div>
 </template>
 
@@ -17,6 +10,7 @@
 import { ref, defineComponent } from 'vue'
 import ChoiceColor from './ChoiceColor.vue'
 import PanelScreen from './PanelScreen.vue'
+import MessagePlace from './MessagePlace.vue'
 
 export default defineComponent({
   setup () {
@@ -750,21 +744,10 @@ export default defineComponent({
       action
     }
   },
-  components: { ChoiceColor, PanelScreen }
+  components: { ChoiceColor, PanelScreen, MessagePlace }
 })
 </script>
 
 <style scoped>
-.panel > button {
-  width: 60px;
-  height: 60px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-.choice > button {
-  margin: 5px;
-  width: 50px;
-  height: 50px;
-}
 
 </style>
