@@ -2,7 +2,7 @@
   <div>
     <PanelScreen :action="action"/>
     <MessagePlace :str-color-ref="strColorRef" :warning-ref="warningRef" :panel-no-ref="panelNoRef" />
-    <ChoiceColor :choiceColor="choiceColor" :red-count-ref="redCountRef" :green-count-ref="greenCountRef" :white-count-ref="whiteCountRef" :blueCountRef="blueCountRef" />
+    <ChoiceColor :choice-color="choiceColor" :red-count-ref="redCountRef" :green-count-ref="greenCountRef" :white-count-ref="whiteCountRef" :blueCountRef="blueCountRef" />
   </div>
 </template>
 
