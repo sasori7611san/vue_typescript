@@ -1,18 +1,23 @@
 <template>
   <div>
-    <div class="choice">
-      <button id="buttonRed" @click="choiceRed()">{{ redCount }}</button>
-      <button id="buttonGreen" @click="choiceGreen()">{{ greenCount }}</button>
-      <button id="buttonWhite" @click="choiceWhite()">{{ whiteCount }}</button>
-      <button id="buttonBlue" @click="choiceBlue()">{{ blueCount }}</button><br />
-      <button id="buttonYellow" @click="choiceYellow()"></button>
-    </div>
+      <div class="play">
+        <RedButton :choice-color="choiceColor" :red-count-ref="redCountRef"></RedButton>
+        <GreenButton :choice-color="choiceColor" :green-count-ref="greenCountRef"></GreenButton>
+        <WhiteButton :choice-color="choiceColor" :white-count-ref="whiteCountRef"></WhiteButton>
+        <BlueButton :choice-color="choiceColor" :blue-count-ref="blueCountRef"></BlueButton>
+      </div>
+        <YellowButton :choice-color="choiceColor"></YellowButton>
     <p>更新で最初からに戻ります。</p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef } from 'vue'
+import { defineComponent } from 'vue'
+import RedButton from './atoms/RedButton.vue'
+import GreenButton from './atoms/GreenButton.vue'
+import WhiteButton from './atoms/WhiteButton.vue'
+import BlueButton from './atoms/BlueButton.vue'
+import YellowButton from './atoms/YellowButton.vue'
 
 export default defineComponent({
   props: {
@@ -22,65 +27,14 @@ export default defineComponent({
     whiteCountRef: Number,
     blueCountRef: Number
   },
-  setup (props) {
-    const redCount = toRef(props, 'redCountRef')
-    const greenCount = toRef(props, 'greenCountRef')
-    const whiteCount = toRef(props, 'whiteCountRef')
-    const blueCount = toRef(props, 'blueCountRef')
-    const choiceRed = () => {
-      if (props.choiceColor) {
-        props.choiceColor(2)
-      }
-    }
-    const choiceGreen = () => {
-      if (props.choiceColor) {
-        props.choiceColor(3)
-      }
-    }
-    const choiceWhite = () => {
-      if (props.choiceColor) {
-        props.choiceColor(4)
-      }
-    }
-    const choiceBlue = () => {
-      if (props.choiceColor) {
-        props.choiceColor(5)
-      }
-    }
-    const choiceYellow = () => {
-      if (props.choiceColor) {
-        props.choiceColor(1)
-      }
-    }
-    return { redCount, greenCount, whiteCount, blueCount, choiceRed, choiceGreen, choiceWhite, choiceBlue, choiceYellow }
-  }
+  components: { RedButton, GreenButton, WhiteButton, BlueButton, YellowButton }
 })
 </script>
 
 <style scoped>
-.choice > button {
-  margin: 5px;
-  width: 50px;
-  height: 50px;
-}
-
-#buttonRed {
-  background-color: red;
-}
-
-#buttonGreen {
-  background-color: green;
-}
-
-#buttonWhite {
-  background-color: white;
-}
-
-#buttonBlue {
-  background-color: blue;
-}
-
-#buttonYellow {
-  background-color: yellow;
+  /* 横に並べ、中央揃えにする */
+.play {
+  display:flex;
+  justify-content: center;
 }
 </style>
