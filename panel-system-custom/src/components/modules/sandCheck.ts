@@ -7,7 +7,6 @@ import { COLORS } from './enums'
 // 3.それ以外は何もせず確認を抜ける
 // 4.使用フラグを戻り値として返す
 // 挟めるか確認（上方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// const upSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const upSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -24,7 +23,6 @@ export const upSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: numb
   return flag
 }
 // 挟めるか確認（下方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const downSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const downSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -41,7 +39,6 @@ export const downSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: nu
   return flag
 }
 // 挟めるか確認（左方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const leftSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const leftSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -58,7 +55,6 @@ export const leftSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: nu
   return flag
 }
 // 挟めるか確認（右方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const rightSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const rightSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -75,7 +71,6 @@ export const rightSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: n
   return flag
 }
 // 挟めるか確認（左斜め上方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const leftUpSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const leftUpSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -93,7 +88,6 @@ export const leftUpSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: 
   return flag
 }
 // 挟めるか確認（左斜め下方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const leftDownSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const leftDownSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -111,7 +105,6 @@ export const leftDownSandCheck = (panel: Panel[][], flag: boolean, cn: number, v
   return flag
 }
 // 挟めるか確認（右斜め上方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const rightUpSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const rightUpSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
@@ -129,7 +122,6 @@ export const rightUpSandCheck = (panel: Panel[][], flag: boolean, cn: number, v:
   return flag
 }
 // 挟めるか確認（右斜め下方向）（panel:使用パネル,flag:使用フラグ,cn:色番号,v:縦番号,s:横番号）
-// export const rightDownSandCheck = (flag: boolean, cn: number, v: number, s: number): boolean => {
 export const rightDownSandCheck = (panel: Panel[][], flag: boolean, cn: number, v: number, s: number): boolean => {
   // 確認for文用変数
   let i
