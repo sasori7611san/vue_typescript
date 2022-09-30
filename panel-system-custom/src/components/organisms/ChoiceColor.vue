@@ -13,11 +13,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import RedButton from './atoms/RedButton.vue'
-import GreenButton from './atoms/GreenButton.vue'
-import WhiteButton from './atoms/WhiteButton.vue'
-import BlueButton from './atoms/BlueButton.vue'
-import YellowButton from './atoms/YellowButton.vue'
+import RedButton from '../atoms/RedButton.vue'
+import GreenButton from '../atoms/GreenButton.vue'
+import WhiteButton from '../atoms/WhiteButton.vue'
+import BlueButton from '../atoms/BlueButton.vue'
+import YellowButton from '../atoms/YellowButton.vue'
 
 export default defineComponent({
   props: {
