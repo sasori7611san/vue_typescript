@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="choice">
-    <button id="buttonYellow" @click="choiceYellow()"></button>
-  </div> -->
   <div>
     <BaseButton :count-ref="yellowCount" :str-color="colorName" @click="choiceYellow()" />
   </div>

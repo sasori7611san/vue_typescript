@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="choice">
-    <button id="buttonWhite" @click="choiceWhite()">{{ whiteCount }}</button>
-  </div> -->
   <div>
     <BaseButton :count-ref="whiteCount" :str-color="colorName" @click="choiceWhite()" />
   </div>
@@ -34,13 +31,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* .choice > button {
-  margin: 5px;
-  width: 50px;
-  height: 50px;
-}
 
-#buttonWhite {
-  background-color: white;
-} */
 </style>

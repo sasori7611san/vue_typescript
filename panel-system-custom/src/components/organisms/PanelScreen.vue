@@ -27,12 +27,38 @@
       <button id="23" class="gray" @click="action23()">23</button>
       <button id="24" class="gray" @click="action24()">24</button>
       <button id="25" class="gray" @click="action25()">25</button>
+      <!-- <BasePanel :panelNum="1" @click="action1()" />
+      <BasePanel :panelNum="2" @click="action2()" />
+      <BasePanel :panelNum="3" @click="action3()" />
+      <BasePanel :panelNum="4" @click="action4()" />
+      <BasePanel :panelNum="5" @click="action5()" />
+      <BasePanel :panelNum="6" @click="action6()" />
+      <BasePanel :panelNum="7" @click="action7()" />
+      <BasePanel :panelNum="8" @click="action8()" />
+      <BasePanel :panelNum="9" @click="action9()" />
+      <BasePanel :panelNum="10" @click="action10()" />
+      <BasePanel :panelNum="11" @click="action11()" />
+      <BasePanel :panelNum="12" @click="action12()" />
+      <BasePanel :panelNum="13" @click="action13()" />
+      <BasePanel :panelNum="14" @click="action14()" />
+      <BasePanel :panelNum="15" @click="action15()" />
+      <BasePanel :panelNum="16" @click="action16()" />
+      <BasePanel :panelNum="17" @click="action17()" />
+      <BasePanel :panelNum="18" @click="action18()" />
+      <BasePanel :panelNum="19" @click="action19()" />
+      <BasePanel :panelNum="20" @click="action20()" />
+      <BasePanel :panelNum="21" @click="action21()" />
+      <BasePanel :panelNum="22" @click="action22()" />
+      <BasePanel :panelNum="23" @click="action23()" />
+      <BasePanel :panelNum="24" @click="action24()" />
+      <BasePanel :panelNum="25" @click="action25()" /> -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+// import BasePanel from '../atoms/BasePanel.vue'
 
 export default defineComponent({
   props: {
@@ -192,6 +218,8 @@ export default defineComponent({
       action25
     }
   }
+  // },
+  // components: { BasePanel }
 })
 </script>
 
@@ -202,11 +230,13 @@ export default defineComponent({
   gap: 0px;
   justify-content: center;
 }
+
 .panel > button {
   width: 60px;
   height: 60px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
 .gray {
   background-color: gray;
 }
