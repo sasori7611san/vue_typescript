@@ -78,7 +78,7 @@ export const panelCheck = (panel: Panel[][], colorRef: Ref<number>): string => {
   // 終了判定
   emptyCount > 0 ? isFinish = false : isFinish = true
   if (isFinish) {
-    return '終了です。'
+    return 'ありません。'
   } else {
     // 入れる番号を戻り値にして返す
     return canGetPanelNo.join(',')

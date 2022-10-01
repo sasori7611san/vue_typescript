@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseButton :count-ref="blueCount" :str-color="colorName" @click="choiceBlue()" />
+    <BaseButton :str-color="colorName" @click="choiceBlue()" />
   </div>
 </template>
 
@@ -10,12 +10,9 @@ import BaseButton from './BaseButton.vue'
 
 export default defineComponent({
   props: {
-    choiceColor: Function,
-    blueCountRef: Number
+    choiceColor: Function
   },
   setup (props) {
-    // 枚数の代入
-    const blueCount = toRef(props, 'blueCountRef')
     // undefinedチェックした上で、色の選択を行う
     const choiceBlue = () => {
       if (props.choiceColor !== undefined) {
@@ -24,7 +21,7 @@ export default defineComponent({
     }
     // 色指定
     const colorName = ref('blue')
-    return { blueCount, choiceBlue, colorName }
+    return { choiceBlue, colorName }
   },
   components: { BaseButton }
 })

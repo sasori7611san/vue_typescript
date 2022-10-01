@@ -2,32 +2,7 @@
   <div>
     <p>I have seen it...</p>
     <div class ="panel">
-      <button id="1" class="gray" @click="action1()">1</button>
-      <button id="2" class="gray" @click="action2()">2</button>
-      <button id="3" class="gray" @click="action3()">3</button>
-      <button id="4" class="gray" @click="action4()">4</button>
-      <button id="5" class="gray" @click="action5()">5</button>
-      <button id="6" class="gray" @click="action6()">6</button>
-      <button id="7" class="gray" @click="action7()">7</button>
-      <button id="8" class="gray" @click="action8()">8</button>
-      <button id="9" class="gray" @click="action9()">9</button>
-      <button id="10" class="gray" @click="action10()">10</button>
-      <button id="11" class="gray" @click="action11()">11</button>
-      <button id="12" class="gray" @click="action12()">12</button>
-      <button id="13" class="gray" @click="action13()">13</button>
-      <button id="14" class="gray" @click="action14()">14</button>
-      <button id="15" class="gray" @click="action15()">15</button>
-      <button id="16" class="gray" @click="action16()">16</button>
-      <button id="17" class="gray" @click="action17()">17</button>
-      <button id="18" class="gray" @click="action18()">18</button>
-      <button id="19" class="gray" @click="action19()">19</button>
-      <button id="20" class="gray" @click="action20()">20</button>
-      <button id="21" class="gray" @click="action21()">21</button>
-      <button id="22" class="gray" @click="action22()">22</button>
-      <button id="23" class="gray" @click="action23()">23</button>
-      <button id="24" class="gray" @click="action24()">24</button>
-      <button id="25" class="gray" @click="action25()">25</button>
-      <!-- <BasePanel :panelNum="1" @click="action1()" />
+      <BasePanel :panelNum="1" @click="action1()" />
       <BasePanel :panelNum="2" @click="action2()" />
       <BasePanel :panelNum="3" @click="action3()" />
       <BasePanel :panelNum="4" @click="action4()" />
@@ -51,14 +26,14 @@
       <BasePanel :panelNum="22" @click="action22()" />
       <BasePanel :panelNum="23" @click="action23()" />
       <BasePanel :panelNum="24" @click="action24()" />
-      <BasePanel :panelNum="25" @click="action25()" /> -->
+      <BasePanel :panelNum="25" @click="action25()" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-// import BasePanel from '../atoms/BasePanel.vue'
+import BasePanel from '../atoms/BasePanel.vue'
 
 export default defineComponent({
   props: {
@@ -217,9 +192,8 @@ export default defineComponent({
       action24,
       action25
     }
-  }
-  // },
-  // components: { BasePanel }
+  },
+  components: { BasePanel }
 })
 </script>
 
@@ -229,12 +203,6 @@ export default defineComponent({
   grid-template-columns: 60px 60px 60px 60px 60px;
   gap: 0px;
   justify-content: center;
-}
-
-.panel > button {
-  width: 60px;
-  height: 60px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .gray {
