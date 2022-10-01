@@ -148,8 +148,8 @@ export default defineComponent({
           // 色判定（0:灰色、1:黄色は除外）
           if (currentColorNo >= COLORS.RED) {
             // for文用変数
-            let i
-            let j
+            let i: number
+            let j: number
             // 上方向確認
             // 変わるパネルがあるか判定
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
@@ -157,7 +157,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = verNo - 1; i >= 0; i--) {
                 if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, i, sideNo)
+                  // colorSet(currentColorNo, i, sideNo)
+                  window.setTimeout(colorSet, 1000, currentColorNo, i, sideNo)
                 } else {
                   break
                 }
@@ -171,7 +172,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = verNo + 1; i <= 6; i++) {
                 if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, i, sideNo)
+                  // colorSet(currentColorNo, i, sideNo)
+                  window.setTimeout(colorSet, 1000, currentColorNo, i, sideNo)
                 } else {
                   break
                 }
@@ -185,7 +187,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = sideNo - 1; i >= 0; i--) {
                 if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, verNo, i)
+                  // colorSet(currentColorNo, verNo, i)
+                  window.setTimeout(colorSet, 1000, currentColorNo, verNo, i)
                 } else {
                   break
                 }
@@ -199,7 +202,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = sideNo + 1; i <= 6; i++) {
                 if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, verNo, i)
+                  // colorSet(currentColorNo, verNo, i)
+                  window.setTimeout(colorSet, 1000, currentColorNo, verNo, i)
                 } else {
                   break
                 }
@@ -213,7 +217,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = verNo - 1, j = sideNo - 1; i >= 0 || j >= 0; i--, j--) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, i, j)
+                  // colorSet(currentColorNo, i, j)
+                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
                 } else {
                   break
                 }
@@ -227,7 +232,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = verNo + 1, j = sideNo - 1; i <= 6 || j >= 0; i++, j--) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, i, j)
+                  // colorSet(currentColorNo, i, j)
+                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
                 } else {
                   break
                 }
@@ -241,7 +247,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = verNo - 1, j = sideNo + 1; i >= 0 || j <= 6; i--, j++) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, i, j)
+                  // colorSet(currentColorNo, i, j)
+                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
                 } else {
                   break
                 }
@@ -255,7 +262,8 @@ export default defineComponent({
             if (panelChange) {
               for (i = verNo + 1, j = sideNo + 1; i <= 6 || j <= 6; i++, j++) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  colorSet(currentColorNo, i, j)
+                  // colorSet(currentColorNo, i, j)
+                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
                 } else {
                   break
                 }
