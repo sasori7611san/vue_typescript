@@ -1,11 +1,15 @@
 <template>
-  <div class="choice">
+  <!-- <div class="choice">
     <button id="buttonWhite" @click="choiceWhite()">{{ whiteCount }}</button>
+  </div> -->
+  <div>
+    <BaseButton :count-ref="whiteCount" :str-color="colorName" @click="choiceWhite()" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef } from 'vue'
+import { defineComponent, ref, toRef } from 'vue'
+import BaseButton from './BaseButton.vue'
 
 export default defineComponent({
   props: {
@@ -13,19 +17,24 @@ export default defineComponent({
     whiteCountRef: Number
   },
   setup (props) {
+    // 枚数の代入
     const whiteCount = toRef(props, 'whiteCountRef')
+    // undefinedチェックした上で、色の選択を行う
     const choiceWhite = () => {
-      if (props.choiceColor) {
+      if (props.choiceColor !== undefined) {
         props.choiceColor(4)
       }
     }
-    return { whiteCount, choiceWhite }
-  }
+    // 色指定
+    const colorName = ref('white')
+    return { whiteCount, choiceWhite, colorName }
+  },
+  components: { BaseButton }
 })
 </script>
 
 <style scoped>
-.choice > button {
+/* .choice > button {
   margin: 5px;
   width: 50px;
   height: 50px;
@@ -33,5 +42,5 @@ export default defineComponent({
 
 #buttonWhite {
   background-color: white;
-}
+} */
 </style>
