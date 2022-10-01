@@ -40,127 +40,127 @@ export default defineComponent({
   },
   setup (props) {
     const action1 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(1)
       }
     }
     const action2 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(2)
       }
     }
     const action3 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(3)
       }
     }
     const action4 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(4)
       }
     }
     const action5 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(5)
       }
     }
     const action6 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(6)
       }
     }
     const action7 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(7)
       }
     }
     const action8 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(8)
       }
     }
     const action9 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(9)
       }
     }
     const action10 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(10)
       }
     }
     const action11 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(11)
       }
     }
     const action12 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(12)
       }
     }
     const action13 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(13)
       }
     }
     const action14 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(14)
       }
     }
     const action15 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(15)
       }
     }
     const action16 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(16)
       }
     }
     const action17 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(17)
       }
     }
     const action18 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(18)
       }
     }
     const action19 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(19)
       }
     }
     const action20 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(20)
       }
     }
     const action21 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(21)
       }
     }
     const action22 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(22)
       }
     }
     const action23 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(23)
       }
     }
     const action24 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(24)
       }
     }
     const action25 = () => {
-      if (props.action) {
+      if (props.action !== undefined) {
         props.action(25)
       }
     }

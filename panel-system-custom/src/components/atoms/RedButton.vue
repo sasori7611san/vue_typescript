@@ -1,11 +1,12 @@
 <template>
-  <div class="choice">
-    <button id="buttonRed" @click="choiceRed()">{{ redCount }}</button>
+  <div>
+    <BaseButton :count-ref="redCount" :str-color="colorName" @click="choiceRed()" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef } from 'vue'
+import { defineComponent, ref, toRef } from 'vue'
+import BaseButton from './BaseButton.vue'
 
 export default defineComponent({
   props: {
@@ -13,25 +14,22 @@ export default defineComponent({
     redCountRef: Number
   },
   setup (props) {
+    // 枚数の代入
     const redCount = toRef(props, 'redCountRef')
+    // undefinedチェックした上で、色の選択を行う
     const choiceRed = () => {
-      if (props.choiceColor) {
+      if (props.choiceColor !== undefined) {
         props.choiceColor(2)
       }
     }
-    return { redCount, choiceRed }
-  }
+    // 色指定
+    const colorName = ref('red')
+    return { redCount, choiceRed, colorName }
+  },
+  components: { BaseButton }
 })
 </script>
 
 <style scoped>
-.choice > button {
-  margin: 5px;
-  width: 50px;
-  height: 50px;
-}
 
-#buttonRed {
-  background-color: red;
-}
 </style>
