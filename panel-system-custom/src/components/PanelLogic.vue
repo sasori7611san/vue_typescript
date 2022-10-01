@@ -2,7 +2,7 @@
   <div>
     <PanelScreen :action="action"/>
     <MessagePlace :str-color-ref="strColorRef" :warning-ref="warningRef" :panel-no-ref="panelNoRef" />
-    <ChoiceColor :choice-color="choiceColor" :red-count-ref="redCountRef" :green-count-ref="greenCountRef" :white-count-ref="whiteCountRef" :blueCountRef="blueCountRef" />
+    <ChoiceColor :choice-color="choiceColor" />
   </div>
 </template>
 
@@ -292,16 +292,17 @@ export default defineComponent({
               }
             }
           }
+
           // 警告文（必ず色のボタンを押してから番号を押すように促す）
           panelNoRef.value = panelCheck(panel, colorRef)
-          warningRef.value = '必ず入力する色を選んでから番号を押してください'
+          warningRef.value = `赤：${redCountRef.value}枚、緑：${greenCountRef.value}枚、白：${whiteCountRef.value}枚、青：${blueCountRef.value}枚`
         } else {
           // 警告文（入れないことを表示）
           warningRef.value = '今は取れません'
         }
       }
     }
-    // パネル色の設定（cn:色番号,v:縦番号,s:横番号）
+    // パネル色の設定（col:色番号,v:縦番号,s:横番号）
     const colorSet = (col: number, v: number, s: number): void => {
       // idを文字列に変換
       const strId = getStrNo(v, s)
@@ -340,10 +341,6 @@ export default defineComponent({
       strColorRef,
       warningRef,
       panelNoRef,
-      redCountRef,
-      greenCountRef,
-      whiteCountRef,
-      blueCountRef,
       choiceColor,
       action
     }

@@ -1,33 +1,23 @@
 <template>
   <div>
-    <button class="choice" :id="color">{{ count }}</button>
+    <button class="choice" :id="color"></button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRef } from 'vue'
+import { defineComponent, toRef } from 'vue'
 
 export default defineComponent({
   props: {
-    strColor: String,
-    countRef: Number
+    strColor: {
+      type: String,
+      default: ''
+    }
   },
   setup (props) {
-    // 枚数（数値）代入
-    const numCount = toRef(props, 'countRef')
-    // 枚数（表示用文字列）代入
-    const count = ref('')
-    // 数値かつ25以下ならそのまま表示、それ以外は空文字（非表示）にする
-    if (numCount.value !== undefined) {
-      if (numCount.value <= 25) {
-        count.value = numCount.value.toString()
-      } else {
-        count.value = ''
-      }
-    }
     // 色の名前を受け取り、色分けする
     const color = toRef(props, 'strColor')
-    return { count, color }
+    return { color }
   }
 })
 </script>

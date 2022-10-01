@@ -1,10 +1,10 @@
 <template>
   <div>
       <div class="play">
-        <RedButton :choice-color="choiceColor" :red-count-ref="redCountRef"></RedButton>
-        <GreenButton :choice-color="choiceColor" :green-count-ref="greenCountRef"></GreenButton>
-        <WhiteButton :choice-color="choiceColor" :white-count-ref="whiteCountRef"></WhiteButton>
-        <BlueButton :choice-color="choiceColor" :blue-count-ref="blueCountRef"></BlueButton>
+        <RedButton :choice-color="choiceColor" />
+        <GreenButton :choice-color="choiceColor" />
+        <WhiteButton :choice-color="choiceColor" />
+        <BlueButton :choice-color="choiceColor" />
       </div>
         <YellowButton :choice-color="choiceColor"></YellowButton>
     <p>更新で最初からに戻ります。</p>
@@ -21,11 +21,7 @@ import YellowButton from '../atoms/YellowButton.vue'
 
 export default defineComponent({
   props: {
-    choiceColor: Function,
-    redCountRef: Number,
-    greenCountRef: Number,
-    whiteCountRef: Number,
-    blueCountRef: Number
+    choiceColor: Function
   },
   components: { RedButton, GreenButton, WhiteButton, BlueButton, YellowButton }
 })

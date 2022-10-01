@@ -1,9 +1,6 @@
 <template>
-  <!-- <div class="choice">
-    <button id="buttonYellow" @click="choiceYellow()"></button>
-  </div> -->
   <div>
-    <BaseButton :count-ref="yellowCount" :str-color="colorName" @click="choiceYellow()" />
+    <BaseButton :str-color="colorName" @click="choiceYellow()" />
   </div>
 </template>
 
@@ -22,11 +19,9 @@ export default defineComponent({
         props.choiceColor(1)
       }
     }
-    // BaseButtonで非表示にするため仮の数値99を入れる
-    const yellowCount = ref(99)
     // 色指定
     const colorName = ref('yellow')
-    return { choiceYellow, yellowCount, colorName }
+    return { choiceYellow, colorName }
   },
   components: { BaseButton }
 })
