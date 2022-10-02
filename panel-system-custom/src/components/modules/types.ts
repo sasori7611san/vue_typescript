@@ -4,3 +4,10 @@ export type Panel = {
   check: boolean;
   condition: number;
 }
+
+export type Total = {
+  redSheet: number;
+  greenSheet: number;
+  whiteSheet: number;
+  blueSheet: number;
+}

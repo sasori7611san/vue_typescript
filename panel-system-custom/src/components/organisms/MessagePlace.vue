@@ -1,7 +1,7 @@
 <template>
   <div>
     <br />
-    {{ warning }}
+    {{ message }}
     <p>選択中の色：{{ strColor }}</p>
     <p>取れる番号は、{{ panelNo }}</p>
   </div>
@@ -12,15 +12,15 @@ import { defineComponent, toRef } from 'vue'
 
 export default defineComponent({
   props: {
-    warningRef: String,
+    messageRef: String,
     strColorRef: String,
     panelNoRef: String
   },
   setup (props) {
-    const warning = toRef(props, 'warningRef')
+    const message = toRef(props, 'messageRef')
     const strColor = toRef(props, 'strColorRef')
     const panelNo = toRef(props, 'panelNoRef')
-    return { strColor, warning, panelNo }
+    return { strColor, message, panelNo }
   }
 })
 </script>

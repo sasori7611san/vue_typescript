@@ -1,21 +1,22 @@
 <template>
   <div>
     <PanelScreen :action="action"/>
-    <MessagePlace :str-color-ref="strColorRef" :warning-ref="warningRef" :panel-no-ref="panelNoRef" />
+    <MessagePlace :str-color-ref="strColorRef" :message-ref="messageRef" :panel-no-ref="panelNoRef" />
     <ChoiceColor :choice-color="choiceColor" />
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, reactive, Ref } from 'vue'
 import ChoiceColor from './organisms/ChoiceColor.vue'
 import PanelScreen from './organisms/PanelScreen.vue'
 import MessagePlace from './organisms/MessagePlace.vue'
-import { Panel } from './modules/types'
+import { Panel, Total } from './modules/types'
 import { COLORS } from './modules/enums'
 import { panelCheck } from './modules/panelCheck'
-import { getStrNo } from './modules/getStrNo'
+import { colorSet } from './modules/colorSet'
 import { upSandCheck, downSandCheck, leftSandCheck, rightSandCheck, leftUpSandCheck, leftDownSandCheck, rightUpSandCheck, rightDownSandCheck } from './modules/sandCheck'
+import { panelAggregation } from './modules/panelAggregation'
 
 export default defineComponent({
   setup () {
@@ -89,13 +90,16 @@ export default defineComponent({
     ]
     // 使用メッセージ
     const strColorRef = ref<string>('')
-    const warningRef = ref<string>('必ず入力する色を選んでから番号を押してください')
+    const messageRef = ref<string>('必ず入力する色を選んでから番号を押してください')
     const panelNoRef = ref<string>('')
     // パネル集計用変数
-    const redCountRef = ref<number>(0)
-    const greenCountRef = ref<number>(0)
-    const whiteCountRef = ref<number>(0)
-    const blueCountRef = ref<number>(0)
+    const panelTotal = reactive<Total>({
+      redSheet: 0,
+      greenSheet: 0,
+      whiteSheet: 0,
+      blueSheet: 0
+    })
+
     // 色の選択・表示用変数へ代入（num:色番号）
     const choiceColor = (num: number): void => {
       switch (num) {
@@ -138,8 +142,8 @@ export default defineComponent({
         Math.floor(num / 5) < 5 && num % 5 !== 0 ? verNo = Math.floor(num / 5) + 1 : verNo = Math.floor(num / 5)
         num % 5 === 0 ? sideNo = 5 : sideNo = num % 5
         if (panel[verNo][sideNo].check) {
-          // パネルに色を設定
-          colorSet(colorRef.value, verNo, sideNo)
+          // パネルに色を設定し、次取れる箇所や枚数を集計
+          panelChangeOpe(colorRef.value, verNo, sideNo, panel, colorRef, panelTotal)
           // 挟まったパネルの色を変える
           // 起点の色
           const currentColorNo = panel[verNo][sideNo].colorNo
@@ -150,15 +154,20 @@ export default defineComponent({
             // for文用変数
             let i: number
             let j: number
+            // パネル変化に要する秒数（ミリ秒単位）
+            const time = 800
             // 上方向確認
             // 変わるパネルがあるか判定
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = verNo - 1; i >= 0; i--) {
                 if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, i, sideNo)
-                  window.setTimeout(colorSet, 1000, currentColorNo, i, sideNo)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, sideNo, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -170,10 +179,13 @@ export default defineComponent({
             panelChange = downSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = verNo + 1; i <= 6; i++) {
                 if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, i, sideNo)
-                  window.setTimeout(colorSet, 1000, currentColorNo, i, sideNo)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, sideNo, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -185,10 +197,13 @@ export default defineComponent({
             panelChange = leftSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = sideNo - 1; i >= 0; i--) {
                 if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, verNo, i)
-                  window.setTimeout(colorSet, 1000, currentColorNo, verNo, i)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, verNo, i, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -200,10 +215,13 @@ export default defineComponent({
             panelChange = rightSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = sideNo + 1; i <= 6; i++) {
                 if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, verNo, i)
-                  window.setTimeout(colorSet, 1000, currentColorNo, verNo, i)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, verNo, i, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -215,10 +233,13 @@ export default defineComponent({
             panelChange = leftUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = verNo - 1, j = sideNo - 1; i >= 0 || j >= 0; i--, j--) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, i, j)
-                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -230,10 +251,13 @@ export default defineComponent({
             panelChange = leftDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = verNo + 1, j = sideNo - 1; i <= 6 || j >= 0; i++, j--) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, i, j)
-                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -245,10 +269,13 @@ export default defineComponent({
             panelChange = rightUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = verNo - 1, j = sideNo + 1; i >= 0 || j <= 6; i--, j++) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, i, j)
-                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -260,10 +287,13 @@ export default defineComponent({
             panelChange = rightDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
+              // 対象枚数
+              let sheet = 0
               for (i = verNo + 1, j = sideNo + 1; i <= 6 || j <= 6; i++, j++) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // colorSet(currentColorNo, i, j)
-                  window.setTimeout(colorSet, 1000, currentColorNo, i, j)
+                  // 枚数を追加
+                  sheet++
+                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
                 } else {
                   break
                 }
@@ -271,83 +301,21 @@ export default defineComponent({
               panelChange = false
             }
           }
-          // 各色の枚数を集計の為、初期化
-          redCountRef.value = 0
-          greenCountRef.value = 0
-          whiteCountRef.value = 0
-          blueCountRef.value = 0
-          // for文用変数
-          let x
-          let y
-          // 各色の枚数を集計
-          for (x = 0; x <= 6; x++) {
-            for (y = 0; y <= 6; y++) {
-              switch (panel[x][y].colorNo) {
-                case COLORS.RED:
-                  redCountRef.value++
-                  break
-                case COLORS.GREEN:
-                  greenCountRef.value++
-                  break
-                case COLORS.WHITE:
-                  whiteCountRef.value++
-                  break
-                case COLORS.BLUE:
-                  blueCountRef.value++
-                  break
-                default:
-                  break
-              }
-            }
-          }
-
-          // 警告文（必ず色のボタンを押してから番号を押すように促す）
-          panelNoRef.value = panelCheck(panel, colorRef)
-          warningRef.value = `赤：${redCountRef.value}枚、緑：${greenCountRef.value}枚、白：${whiteCountRef.value}枚、青：${blueCountRef.value}枚`
         } else {
-          // 警告文（入れないことを表示）
-          warningRef.value = '今は取れません'
+          // メッセージ出力（入れないことを表示）
+          messageRef.value = '今は取れません'
         }
       }
     }
-    // パネル色の設定（col:色番号,v:縦番号,s:横番号）
-    const colorSet = (col: number, v: number, s: number): void => {
-      // idを文字列に変換
-      const strId = getStrNo(v, s)
-      // パネルに色を反映
-      const elem = document.getElementById(strId)
-      if (elem !== null) {
-        switch (col) {
-          case 1:
-            panel[v][s].colorNo = COLORS.YELLOW
-            elem.style.backgroundColor = 'yellow'
-            break
-          case 2:
-            panel[v][s].colorNo = COLORS.RED
-            elem.style.backgroundColor = 'red'
-            break
-          case 3:
-            panel[v][s].colorNo = COLORS.GREEN
-            elem.style.backgroundColor = 'green'
-            break
-          case 4:
-            panel[v][s].colorNo = COLORS.WHITE
-            elem.style.backgroundColor = 'white'
-            break
-          case 5:
-            panel[v][s].colorNo = COLORS.BLUE
-            elem.style.backgroundColor = 'blue'
-            break
-          default:
-            panel[v][s].colorNo = COLORS.GRAY
-            elem.style.backgroundColor = 'gray'
-            break
-        }
-      }
+    // パネル変更動作（col:対象色番号,v:縦番号,s:横番号,pan:パネル,color:使用色番号,total:パネル集計）
+    const panelChangeOpe = (col: number, v: number, s: number, pan: Panel[][], color: Ref<number>, total: Total): void => {
+      colorSet(col, v, s, pan)
+      messageRef.value = panelAggregation(panel, total.redSheet, total.greenSheet, total.whiteSheet, total.blueSheet)
+      panelNoRef.value = panelCheck(pan, color)
     }
     return {
       strColorRef,
-      warningRef,
+      messageRef,
       panelNoRef,
       choiceColor,
       action
