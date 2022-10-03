@@ -19,12 +19,14 @@ export default defineComponent({
   setup (props) {
     // 色の名前を受け取り、色分けする
     const color = toRef(props, 'strColor')
+    // 集計を受け取る（デフォルトは全部0とする）
     const panelTotal = inject(totalKey, reactive<Total>({
       redSheet: 0,
       greenSheet: 0,
       whiteSheet: 0,
       blueSheet: 0
     }))
+    // 集計表示用変数（文字列:黄色を非表示にするため）
     const sheetTotal = ref<string>('')
     watchEffect(() => {
       switch (color.value) {

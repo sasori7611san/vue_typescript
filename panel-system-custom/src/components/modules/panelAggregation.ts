@@ -1,7 +1,8 @@
 import { COLORS } from './enums'
 import { Panel, Total } from './types'
 
-export const panelAggregation = (panel: Panel[][], total: Total): string => {
+// export const panelAggregation = (panel: Panel[][], total: Total): string => {
+export const panelAggregation = (panel: Panel[][], total: Total): void => {
   // 各色の枚数を集計の為、初期化
   total.redSheet = 0
   total.greenSheet = 0
@@ -31,6 +32,6 @@ export const panelAggregation = (panel: Panel[][], total: Total): string => {
       }
     }
   }
-  // メッセージ（枚数内容を表示）
-  return `赤：${total.redSheet}枚、緑：${total.greenSheet}枚、白：${total.whiteSheet}枚、青：${total.blueSheet}枚`
+  // // メッセージ（枚数内容を表示）
+  // return `赤：${total.redSheet}枚、緑：${total.greenSheet}枚、白：${total.whiteSheet}枚、青：${total.blueSheet}枚`
 }

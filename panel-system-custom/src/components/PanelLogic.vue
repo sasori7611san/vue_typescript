@@ -160,8 +160,7 @@ export default defineComponent({
             const time = 800
             // 挟まる枚数
             let sheet = 0
-            // 上方向確認
-            // 変わるパネルがあるか判定
+            // 上方向確認。変わるパネルがあるか判定
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -176,8 +175,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 下方向確認
-            // 変わるパネルがあるか判定
+            // 下方向確認。変わるパネルがあるか判定
             panelChange = downSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -192,8 +190,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 左方向確認
-            // 変わるパネルがあるか判定
+            // 左方向確認。変わるパネルがあるか判定
             panelChange = leftSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -208,8 +205,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 右方向確認
-            // 変わるパネルがあるか判定
+            // 右方向確認。変わるパネルがあるか判定
             panelChange = rightSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -224,8 +220,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 左斜め上方向確認
-            // 変わるパネルがあるか判定
+            // 左斜め上方向確認。変わるパネルがあるか判定
             panelChange = leftUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -240,8 +235,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 左斜め下方向確認
-            // 変わるパネルがあるか判定
+            // 左斜め下方向確認。変わるパネルがあるか判定
             panelChange = leftDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -256,8 +250,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 右斜め上方向確認
-            // 変わるパネルがあるか判定
+            // 右斜め上方向確認。変わるパネルがあるか判定
             panelChange = rightUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -272,8 +265,7 @@ export default defineComponent({
               }
               panelChange = false
             }
-            // 右斜め下方向確認
-            // 変わるパネルがあるか判定
+            // 右斜め下方向確認。変わるパネルがあるか判定
             panelChange = rightDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
@@ -302,6 +294,7 @@ export default defineComponent({
       panelAggregation(pan, total)
       panelNoRef.value = panelCheck(pan, color)
     }
+    // パネルの集計値を渡す
     provide(totalKey, panelTotal)
     return {
       strColorRef,
