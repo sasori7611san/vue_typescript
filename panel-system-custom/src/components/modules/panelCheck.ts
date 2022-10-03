@@ -66,18 +66,17 @@ export const panelCheck = (panel: Panel[][], colorRef: Ref<number>): string => {
     }
   }
   // 終了（取れるパネルがなくなる）の判定
-  let isFinish = false
-  // 取れるパネルの枚数
-  let emptyCount = 0
+  // 終了フラグ
+  let isFinish = true
+  // 灰色や黄色があれば終了フラグを降ろす
   for (m = 0; m <= 6; m++) {
     for (n = 0; n <= 6; n++) {
       if (panel[m][n].colorNo === COLORS.GRAY || panel[m][n].colorNo === COLORS.YELLOW) {
-        emptyCount++
+        isFinish = false
       }
     }
   }
-  // 終了判定
-  emptyCount > 0 ? isFinish = false : isFinish = true
+  // 終了の判定
   if (isFinish) {
     return 'ありません。'
   } else {

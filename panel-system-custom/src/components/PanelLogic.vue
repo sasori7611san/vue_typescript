@@ -156,13 +156,13 @@ export default defineComponent({
             let j: number
             // パネル変化に要する秒数（ミリ秒単位）
             const time = 800
+            // 挟まる枚数
+            let sheet = 0
             // 上方向確認
             // 変わるパネルがあるか判定
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = verNo - 1; i >= 0; i--) {
                 if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -179,8 +179,6 @@ export default defineComponent({
             panelChange = downSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = verNo + 1; i <= 6; i++) {
                 if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -197,8 +195,6 @@ export default defineComponent({
             panelChange = leftSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = sideNo - 1; i >= 0; i--) {
                 if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -215,8 +211,6 @@ export default defineComponent({
             panelChange = rightSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = sideNo + 1; i <= 6; i++) {
                 if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -233,8 +227,6 @@ export default defineComponent({
             panelChange = leftUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = verNo - 1, j = sideNo - 1; i >= 0 || j >= 0; i--, j--) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -251,8 +243,6 @@ export default defineComponent({
             panelChange = leftDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = verNo + 1, j = sideNo - 1; i <= 6 || j >= 0; i++, j--) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -269,8 +259,6 @@ export default defineComponent({
             panelChange = rightUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = verNo - 1, j = sideNo + 1; i >= 0 || j <= 6; i--, j++) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
@@ -287,8 +275,6 @@ export default defineComponent({
             panelChange = rightDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // 対象枚数
-              let sheet = 0
               for (i = verNo + 1, j = sideNo + 1; i <= 6 || j <= 6; i++, j++) {
                 if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
                   // 枚数を追加
