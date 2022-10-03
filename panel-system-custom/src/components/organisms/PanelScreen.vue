@@ -40,6 +40,7 @@ export default defineComponent({
     action: Function
   },
   setup (props) {
+    // 各パネルの処理
     const action1 = () => {
       if (props.action !== undefined) {
         props.action(1)

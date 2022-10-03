@@ -1,11 +1,13 @@
 <template>
   <div>
-    <button class="choice" :id="color"></button>
+    <button class="choice" :id="color">{{ sheetTotal }}</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef } from 'vue'
+import { defineComponent, inject, reactive, ref, toRef, watchEffect } from 'vue'
+import { Total } from '../modules/types'
+import { totalKey } from '../PanelLogic.vue'
 
 export default defineComponent({
   props: {
@@ -17,7 +19,34 @@ export default defineComponent({
   setup (props) {
     // 色の名前を受け取り、色分けする
     const color = toRef(props, 'strColor')
-    return { color }
+    // 集計を受け取る（デフォルトは全部0とする）
+    const panelTotal = inject(totalKey, reactive<Total>({
+      redSheet: 0,
+      greenSheet: 0,
+      whiteSheet: 0,
+      blueSheet: 0
+    }))
+    // 集計表示用変数（文字列:黄色を非表示にするため）
+    const sheetTotal = ref<string>('')
+    watchEffect(() => {
+      switch (color.value) {
+        case 'red':
+          sheetTotal.value = panelTotal.redSheet.toString()
+          break
+        case 'green':
+          sheetTotal.value = panelTotal.greenSheet.toString()
+          break
+        case 'white':
+          sheetTotal.value = panelTotal.whiteSheet.toString()
+          break
+        case 'blue':
+          sheetTotal.value = panelTotal.blueSheet.toString()
+          break
+        default:
+          break
+      }
+    })
+    return { color, sheetTotal }
   }
 })
 </script>
@@ -47,5 +76,9 @@ export default defineComponent({
 
 #yellow {
   background-color: yellow;
+}
+
+button {
+  font-size: 16px;
 }
 </style>
