@@ -33,4 +33,8 @@ export default defineComponent({
 .gray {
   background-color: gray;
 }
+
+button {
+  font-size: 16px;
+}
 </style>

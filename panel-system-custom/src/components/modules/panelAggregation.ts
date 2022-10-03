@@ -1,12 +1,12 @@
 import { COLORS } from './enums'
-import { Panel } from './types'
+import { Panel, Total } from './types'
 
-export const panelAggregation = (panel: Panel[][], red:number, green:number, white:number, blue:number): string => {
+export const panelAggregation = (panel: Panel[][], total: Total): string => {
   // 各色の枚数を集計の為、初期化
-  red = 0
-  green = 0
-  white = 0
-  blue = 0
+  total.redSheet = 0
+  total.greenSheet = 0
+  total.whiteSheet = 0
+  total.blueSheet = 0
   // for文用変数
   let x
   let y
@@ -15,16 +15,16 @@ export const panelAggregation = (panel: Panel[][], red:number, green:number, whi
     for (y = 0; y <= 6; y++) {
       switch (panel[x][y].colorNo) {
         case COLORS.RED:
-          red++
+          total.redSheet++
           break
         case COLORS.GREEN:
-          green++
+          total.greenSheet++
           break
         case COLORS.WHITE:
-          white++
+          total.whiteSheet++
           break
         case COLORS.BLUE:
-          blue++
+          total.blueSheet++
           break
         default:
           break
@@ -32,5 +32,5 @@ export const panelAggregation = (panel: Panel[][], red:number, green:number, whi
     }
   }
   // メッセージ（枚数内容を表示）
-  return `赤：${red}枚、緑：${green}枚、白：${white}枚、青：${blue}枚`
+  return `赤：${total.redSheet}枚、緑：${total.greenSheet}枚、白：${total.whiteSheet}枚、青：${total.blueSheet}枚`
 }

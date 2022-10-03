@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, reactive, Ref } from 'vue'
+import { ref, defineComponent, reactive, Ref, provide, InjectionKey } from 'vue'
 import ChoiceColor from './organisms/ChoiceColor.vue'
 import PanelScreen from './organisms/PanelScreen.vue'
 import MessagePlace from './organisms/MessagePlace.vue'
@@ -17,6 +17,9 @@ import { panelCheck } from './modules/panelCheck'
 import { colorSet } from './modules/colorSet'
 import { upSandCheck, downSandCheck, leftSandCheck, rightSandCheck, leftUpSandCheck, leftDownSandCheck, rightUpSandCheck, rightDownSandCheck } from './modules/sandCheck'
 import { panelAggregation } from './modules/panelAggregation'
+
+// InjectionKeyの作成
+export const totalKey: InjectionKey<Total> = Symbol('total')
 
 export default defineComponent({
   setup () {
@@ -99,7 +102,6 @@ export default defineComponent({
       whiteSheet: 0,
       blueSheet: 0
     })
-
     // 色の選択・表示用変数へ代入（num:色番号）
     const choiceColor = (num: number): void => {
       switch (num) {
@@ -287,6 +289,7 @@ export default defineComponent({
               panelChange = false
             }
           }
+          messageRef.value = '必ず入力する色を選んでから番号を押してください'
         } else {
           // メッセージ出力（入れないことを表示）
           messageRef.value = '今は取れません'
@@ -296,9 +299,10 @@ export default defineComponent({
     // パネル変更動作（col:対象色番号,v:縦番号,s:横番号,pan:パネル,color:使用色番号,total:パネル集計）
     const panelChangeOpe = (col: number, v: number, s: number, pan: Panel[][], color: Ref<number>, total: Total): void => {
       colorSet(col, v, s, pan)
-      messageRef.value = panelAggregation(panel, total.redSheet, total.greenSheet, total.whiteSheet, total.blueSheet)
+      panelAggregation(pan, total)
       panelNoRef.value = panelCheck(pan, color)
     }
+    provide(totalKey, panelTotal)
     return {
       strColorRef,
       messageRef,
