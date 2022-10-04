@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, reactive, Ref, provide, InjectionKey } from 'vue'
+import { ref, defineComponent, reactive, Ref, provide, InjectionKey, watch } from 'vue'
 import ChoiceColor from './organisms/ChoiceColor.vue'
 import PanelScreen from './organisms/PanelScreen.vue'
 import MessagePlace from './organisms/MessagePlace.vue'
@@ -16,6 +16,7 @@ import { COLORS } from './modules/enums'
 import { panelCheck } from './modules/panelCheck'
 import { colorSet } from './modules/colorSet'
 import { upSandCheck, downSandCheck, leftSandCheck, rightSandCheck, leftUpSandCheck, leftDownSandCheck, rightUpSandCheck, rightDownSandCheck } from './modules/sandCheck'
+import { upPanelChenge, downPanelChenge, leftPanelChenge, rightPanelChenge, leftUpPanelChenge, leftDownPanelChenge, rightUpPanelChenge, rightDownPanelChenge } from './modules/panelChangeExec'
 import { panelAggregation } from './modules/panelAggregation'
 
 // InjectionKeyの作成
@@ -102,6 +103,7 @@ export default defineComponent({
       whiteSheet: 0,
       blueSheet: 0
     })
+
     // 色の選択・表示用変数へ代入（num:色番号）
     const choiceColor = (num: number): void => {
       switch (num) {
@@ -130,6 +132,7 @@ export default defineComponent({
           strColorRef.value = '灰'
           break
       }
+      // 取れるパネルを確認
       panelNoRef.value = panelCheck(panel, colorRef)
     }
     // パネル取得（num:パネル番号）
@@ -153,9 +156,6 @@ export default defineComponent({
           let panelChange = false
           // 色判定（0:灰色、1:黄色は除外）
           if (currentColorNo >= COLORS.RED) {
-            // for文用変数
-            let i: number
-            let j: number
             // パネル変化に要する秒数（ミリ秒単位）
             const time = 800
             // 挟まる枚数
@@ -164,124 +164,75 @@ export default defineComponent({
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = verNo - 1; i >= 0; i--) {
-                if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, sideNo, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = upPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 下方向確認。変わるパネルがあるか判定
             panelChange = downSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = verNo + 1; i <= 6; i++) {
-                if (panel[i][sideNo].colorNo !== currentColorNo && panel[i][sideNo].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, sideNo, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = downPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 左方向確認。変わるパネルがあるか判定
             panelChange = leftSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = sideNo - 1; i >= 0; i--) {
-                if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, verNo, i, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = leftPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 右方向確認。変わるパネルがあるか判定
             panelChange = rightSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = sideNo + 1; i <= 6; i++) {
-                if (panel[verNo][i].colorNo !== currentColorNo && panel[verNo][i].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, verNo, i, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = rightPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 左斜め上方向確認。変わるパネルがあるか判定
             panelChange = leftUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = verNo - 1, j = sideNo - 1; i >= 0 || j >= 0; i--, j--) {
-                if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = leftUpPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 左斜め下方向確認。変わるパネルがあるか判定
             panelChange = leftDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = verNo + 1, j = sideNo - 1; i <= 6 || j >= 0; i++, j--) {
-                if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = leftDownPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 右斜め上方向確認。変わるパネルがあるか判定
             panelChange = rightUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = verNo - 1, j = sideNo + 1; i >= 0 || j <= 6; i--, j++) {
-                if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+            // パネル更新
+              sheet = rightUpPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
             // 右斜め下方向確認。変わるパネルがあるか判定
             panelChange = rightDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              for (i = verNo + 1, j = sideNo + 1; i <= 6 || j <= 6; i++, j++) {
-                if (panel[i][j].colorNo !== currentColorNo && panel[i][j].colorNo > COLORS.YELLOW) {
-                  // 枚数を追加
-                  sheet++
-                  window.setTimeout(panelChangeOpe, time * sheet, currentColorNo, i, j, panel, colorRef, panelTotal)
-                } else {
-                  break
-                }
-              }
+              // パネル更新
+              sheet = rightDownPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
               panelChange = false
             }
+            // 取れるパネルを再チェック
+            window.setTimeout(panelCheck, time * sheet, panel, colorRef)
           }
-          messageRef.value = '必ず入力する色を選んでから番号を押してください'
+          // パネル状況変わるたびに取れるパネルをチェック
+          watch(panelTotal, () => {
+            panelNoRef.value = panelCheck(panel, colorRef)
+          })
+          // messageRef.value = '必ず入力する色を選んでから番号を押してください'
+          messageRef.value = ''
         } else {
           // メッセージ出力（入れないことを表示）
           messageRef.value = '今は取れません'

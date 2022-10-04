@@ -4,7 +4,7 @@ export type Panel = {
   check: boolean;
   condition: number;
 }
-
+// パネル枚数合計型の定義
 export type Total = {
   redSheet: number;
   greenSheet: number;
