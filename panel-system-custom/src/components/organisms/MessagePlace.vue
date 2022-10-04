@@ -1,7 +1,8 @@
 <template>
   <div>
     <br />
-    {{ message }}
+    <!-- {{ message }} -->
+    <p>{{ message }}</p>
     <p>選択中の色：{{ strColor }}</p>
     <p>取れる番号は、{{ panelNo }}</p>
   </div>
