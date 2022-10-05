@@ -11,3 +11,8 @@ export type Total = {
   whiteSheet: number;
   blueSheet: number;
 }
+// 色のデータ型定義
+export type ColorType = {
+  colorNum: number;
+  colorStr: string;
+}
