@@ -7,17 +7,16 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, reactive, Ref, provide, InjectionKey, watch } from 'vue'
+import { ref, defineComponent, reactive, provide, InjectionKey, watch } from 'vue'
 import ChoiceColor from './organisms/ChoiceColor.vue'
 import PanelScreen from './organisms/PanelScreen.vue'
 import MessagePlace from './organisms/MessagePlace.vue'
-import { Panel, Total } from './modules/types'
+import { ColorType, Panel, Total } from './modules/types'
 import { COLORS } from './modules/enums'
 import { panelCheck } from './modules/panelCheck'
-import { colorSet } from './modules/colorSet'
 import { upSandCheck, downSandCheck, leftSandCheck, rightSandCheck, leftUpSandCheck, leftDownSandCheck, rightUpSandCheck, rightDownSandCheck } from './modules/sandCheck'
-import { upPanelChenge, downPanelChenge, leftPanelChenge, rightPanelChenge, leftUpPanelChenge, leftDownPanelChenge, rightUpPanelChenge, rightDownPanelChenge } from './modules/panelChangeExec'
-import { panelAggregation } from './modules/panelAggregation'
+import { upPanelChenge, downPanelChenge, leftPanelChenge, rightPanelChenge, leftUpPanelChenge, leftDownPanelChenge, rightUpPanelChenge, rightDownPanelChenge, panelChangeExec } from './modules/panelChangeExec'
+import { choiceColorSet } from './modules/choiceColorSet'
 
 // InjectionKeyの作成
 export const totalKey: InjectionKey<Total> = Symbol('total')
@@ -103,35 +102,18 @@ export default defineComponent({
       whiteSheet: 0,
       blueSheet: 0
     })
+    // パネル集計用変数
+    let colorType: ColorType = {
+      colorNum: 0,
+      colorStr: '灰'
+    }
 
     // 色の選択・表示用変数へ代入（num:色番号）
     const choiceColor = (num: number): void => {
-      switch (num) {
-        case 2:
-          colorRef.value = COLORS.RED
-          strColorRef.value = '赤'
-          break
-        case 3:
-          colorRef.value = COLORS.GREEN
-          strColorRef.value = '緑'
-          break
-        case 4:
-          colorRef.value = COLORS.WHITE
-          strColorRef.value = '白'
-          break
-        case 5:
-          colorRef.value = COLORS.BLUE
-          strColorRef.value = '青'
-          break
-        case 1:
-          colorRef.value = COLORS.YELLOW
-          strColorRef.value = '黄'
-          break
-        default:
-          colorRef.value = COLORS.GRAY
-          strColorRef.value = '灰'
-          break
-      }
+      // 色の選択を反映
+      colorType = choiceColorSet(num)
+      colorRef.value = colorType.colorNum
+      strColorRef.value = colorType.colorStr
       // 取れるパネルを確認
       panelNoRef.value = panelCheck(panel, colorRef)
     }
@@ -141,14 +123,15 @@ export default defineComponent({
       let verNo = 0
       // 横要素番号
       let sideNo = 0
-      // ロジック
+      // パネル取得ロジック
       if (num <= 25 && num > 0) {
         // 取得配列要素取得
         Math.floor(num / 5) < 5 && num % 5 !== 0 ? verNo = Math.floor(num / 5) + 1 : verNo = Math.floor(num / 5)
         num % 5 === 0 ? sideNo = 5 : sideNo = num % 5
         if (panel[verNo][sideNo].check) {
           // パネルに色を設定し、次取れる箇所や枚数を集計
-          panelChangeOpe(colorRef.value, verNo, sideNo, panel, colorRef, panelTotal)
+          panelChangeExec(colorRef.value, verNo, sideNo, panel, panelTotal)
+          panelNoRef.value = panelCheck(panel, colorRef)
           // 挟まったパネルの色を変える
           // 起点の色
           const currentColorNo = panel[verNo][sideNo].colorNo
@@ -224,12 +207,6 @@ export default defineComponent({
           messageRef.value = '今は取れません'
         }
       }
-    }
-    // パネル変更動作（col:対象色番号,v:縦番号,s:横番号,pan:パネル,color:使用色番号,total:パネル集計）
-    const panelChangeOpe = (col: number, v: number, s: number, pan: Panel[][], color: Ref<number>, total: Total): void => {
-      colorSet(col, v, s, pan)
-      panelAggregation(pan, total)
-      panelNoRef.value = panelCheck(pan, color)
     }
     // パネルの集計値を渡す
     provide(totalKey, panelTotal)
