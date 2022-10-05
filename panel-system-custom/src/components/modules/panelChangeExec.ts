@@ -117,7 +117,7 @@ export const rightDownPanelChenge = (col: number, v: number, s: number, pan: Pan
   return sheets
 }
 // パネル変更動作（col:対象色番号,v:縦番号,s:横番号,pan:パネル,color:使用色番号,total:パネル集計）
-const panelChangeOpe = (col: number, v: number, s: number, pan: Panel[][], color: Ref<number>, total: Total): void => {
+const panelChangeExec = (col: number, v: number, s: number, pan: Panel[][], color: Ref<number>, total: Total): void => {
   colorSet(col, v, s, pan)
   panelAggregation(pan, total)
 }
@@ -126,5 +126,5 @@ const panelChangeTime = (col: number, v: number, s: number, pan: Panel[][], colo
   // 枚数を追加
   sheets++
   // パネル動作（時間考慮）
-  window.setTimeout(panelChangeOpe, time * sheets, col, v, s, pan, color, total)
+  window.setTimeout(panelChangeExec, time * sheets, col, v, s, pan, color, total)
 }
