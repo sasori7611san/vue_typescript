@@ -160,68 +160,55 @@ export default defineComponent({
             const time = 800
             // 挟まる枚数
             let sheet = 0
-            // 上方向確認。変わるパネルがあるか判定
+            // パネル更新（各方向で確認）
+            // 1.変わるパネルがあるか判定し、あるならpanelChangeをtrueにする
+            // 2.panelChangeがtrueならパネル更新する
+            // 上方向確認
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = upPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = upPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 下方向確認。変わるパネルがあるか判定
+            // 下方向確認
             panelChange = downSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = downPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = downPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 左方向確認。変わるパネルがあるか判定
+            // 左方向確認
             panelChange = leftSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = leftPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = leftPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 右方向確認。変わるパネルがあるか判定
+            // 右方向確認
             panelChange = rightSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = rightPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = rightPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 左斜め上方向確認。変わるパネルがあるか判定
+            // 左斜め上方向確認
             panelChange = leftUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = leftUpPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = leftUpPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 左斜め下方向確認。変わるパネルがあるか判定
+            // 左斜め下方向確認
             panelChange = leftDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = leftDownPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = leftDownPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 右斜め上方向確認。変わるパネルがあるか判定
+            // 右斜め上方向確認
             panelChange = rightUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-            // パネル更新
-              sheet = rightUpPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = rightUpPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
-            // 右斜め下方向確認。変わるパネルがあるか判定
+            // 右斜め下方向確認
             panelChange = rightDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
-            // panelChangeがtrueならパネルを変える
             if (panelChange) {
-              // パネル更新
-              sheet = rightDownPanelChenge(currentColorNo, verNo, sideNo, panel, colorRef, panelTotal, sheet)
+              sheet = rightDownPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 取れるパネルを再チェック
@@ -231,7 +218,6 @@ export default defineComponent({
           watch(panelTotal, () => {
             panelNoRef.value = panelCheck(panel, colorRef)
           })
-          // messageRef.value = '必ず入力する色を選んでから番号を押してください'
           messageRef.value = ''
         } else {
           // メッセージ出力（入れないことを表示）
