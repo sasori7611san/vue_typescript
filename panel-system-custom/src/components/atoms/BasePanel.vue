@@ -28,6 +28,10 @@ export default defineComponent({
   width: 60px;
   height: 60px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
 }
 
 .gray {

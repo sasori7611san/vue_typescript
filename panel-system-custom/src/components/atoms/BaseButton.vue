@@ -56,6 +56,10 @@ export default defineComponent({
   margin: 5px;
   width: 50px;
   height: 50px;
+  color: black;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
 }
 
 #red {
