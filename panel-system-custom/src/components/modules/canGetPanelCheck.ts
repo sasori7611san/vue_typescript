@@ -8,15 +8,15 @@ export const canGetPanelCheck = (panel: Panel[][], v: number, s: number, colorRe
   // 条件番号（1:挟める箇所,2:次挟める箇所,3:自分や他人と隣接している箇所,9:それ以外）
   let condNum = 9
   // 最初の判定フラグ（13番以外入れないようにする為）
-  let beginLock = false
+  let firstLock = false
   // 挟める箇所フラグ
   const sandPanel = false
   // 最初は配列[3][3]（13番）のみ条件番号1を設定
   if (panel[3][3].colorNo === COLORS.GRAY) {
-    beginLock = true
+    firstLock = true
     if (v === 3 && s === 3) {
       condNum = 1
-      beginLock = false
+      firstLock = false
     }
   }
   // 挟める箇所か（該当すれば条件番号1を設定）
@@ -44,7 +44,7 @@ export const canGetPanelCheck = (panel: Panel[][], v: number, s: number, colorRe
   // 確認用for文用変数
   let a
   let b
-  if (condNum !== 1 && !beginLock) {
+  if (condNum !== 1 && !firstLock) {
     // 挟む対象フラグ
     let isSandTarget = false
     // 上方向確認
