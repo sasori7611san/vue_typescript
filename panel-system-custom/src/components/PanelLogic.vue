@@ -15,7 +15,7 @@ import { ColorType, Panel, Total } from './modules/types'
 import { COLORS } from './modules/enums'
 import { panelCheck } from './modules/panelCheck'
 import { upSandCheck, downSandCheck, leftSandCheck, rightSandCheck, leftUpSandCheck, leftDownSandCheck, rightUpSandCheck, rightDownSandCheck } from './modules/sandCheck'
-import { upPanelChenge, downPanelChenge, leftPanelChenge, rightPanelChenge, leftUpPanelChenge, leftDownPanelChenge, rightUpPanelChenge, rightDownPanelChenge, panelChangeExec } from './modules/panelChangeExec'
+import { upPanelChange, downPanelChange, leftPanelChange, rightPanelChange, leftUpPanelChange, leftDownPanelChange, rightUpPanelChange, rightDownPanelChange, panelChangeExec } from './modules/panelChangeExec'
 import { choiceColorSet } from './modules/choiceColorSet'
 
 // InjectionKeyの作成
@@ -149,49 +149,49 @@ export default defineComponent({
             // 上方向確認
             panelChange = upSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = upPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = upPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 下方向確認
             panelChange = downSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = downPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = downPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 左方向確認
             panelChange = leftSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = leftPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = leftPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 右方向確認
             panelChange = rightSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = rightPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = rightPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 左斜め上方向確認
             panelChange = leftUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = leftUpPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = leftUpPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 左斜め下方向確認
             panelChange = leftDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = leftDownPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = leftDownPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 右斜め上方向確認
             panelChange = rightUpSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = rightUpPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = rightUpPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 右斜め下方向確認
             panelChange = rightDownSandCheck(panel, panelChange, currentColorNo, verNo, sideNo)
             if (panelChange) {
-              sheet = rightDownPanelChenge(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
+              sheet = rightDownPanelChange(currentColorNo, verNo, sideNo, panel, panelTotal, sheet)
               panelChange = false
             }
             // 取れるパネルを再チェック
